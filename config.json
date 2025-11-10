@@ -71,7 +71,8 @@
       "action": "output",
       "args": {
         "outputDir": "./output",
-        "outputName": "geoip.dat"
+        "outputName": "geoip-private.dat",
+        "wantedList": ["private"]
       }
     },
     {
@@ -79,143 +80,8 @@
       "action": "output",
       "args": {
         "outputDir": "./output",
-        "outputName": "geoip-asn.dat",
-        "wantedList": [
-          "cloudflare",
-          "cloudfront",
-          "facebook",
-          "fastly",
-          "google",
-          "netflix",
-          "telegram",
-          "ddos-guard",
-          "yandex",
-          "twitter"
-        ]
-      }
-    },
-    {
-      "type": "v2rayGeoIPDat",
-      "action": "output",
-      "args": {
-        "outputDir": "./output",
-        "outputName": "geoip-ru-only.dat",
-        "wantedList": ["ru-blocked", "ru-blocked-community", "re-filter", "private"]
-      }
-    },
-    {
-      "type": "v2rayGeoIPDat",
-      "action": "output",
-      "args": {
-        "outputDir": "./output",
-        "oneFilePerList": true,
-        "wantedList": ["ru-blocked", "ru-blocked-community", "re-filter", "private"]
-      }
-    },
-    {
-      "type": "v2rayGeoIPDat",
-      "action": "output",
-      "args": {
-        "oneFilePerList": true
-      }
-    },
-    {
-      "type": "maxmindMMDB",
-      "action": "output",
-      "args": {
-        "outputDir": "./output",
-        "outputName": "Country.mmdb",
-        "overwriteList": [
-          "ru-blocked",
-          "ru-blocked-community",
-          "private",
-          "cloudflare",
-          "cloudfront",
-          "facebook",
-          "fastly",
-          "google",
-          "netflix",
-          "telegram",
-          "ddos-guard",
-          "yandex",
-          "twitter"
-        ]
-      }
-    },
-    {
-      "type": "maxmindMMDB",
-      "action": "output",
-      "args": {
-        "outputDir": "./output",
-        "outputName": "Country-asn.mmdb",
-        "wantedList": [
-          "cloudflare",
-          "cloudfront",
-          "facebook",
-          "fastly",
-          "google",
-          "netflix",
-          "telegram",
-          "ddos-guard",
-          "yandex",
-          "twitter"
-        ]
-      }
-    },
-    {
-      "type": "maxmindMMDB",
-      "action": "output",
-      "args": {
-        "outputDir": "./output",
-        "outputName": "Country-ru-only.mmdb",
-        "wantedList": ["ru-blocked", "ru-blocked-community", "re-filter", "private"]
-      }
-    },
-    {
-      "type": "singboxSRS",
-      "action": "output"
-    },
-    {
-      "type": "mihomoMRS",
-      "action": "output"
-    },
-    {
-      "type": "text",
-      "action": "output"
-    },
-    {
-      "type": "text",
-      "action": "output",
-      "args": {
-        "outputDir": "./output/nginx/allow",
-        "outputExtension": ".conf",
-        "addPrefixInLine": "allow ",
-        "addSuffixInLine": ";"
-      }
-    },
-    {
-      "type": "text",
-      "action": "output",
-      "args": {
-        "outputDir": "./output/nginx/deny",
-        "outputExtension": ".conf",
-        "addPrefixInLine": "deny ",
-        "addSuffixInLine": ";"
-      }
-    },
-    {
-      "type": "clashRuleSetClassical",
-      "action": "output"
-    },
-    {
-      "type": "clashRuleSet",
-      "action": "output"
-    },
-    {
-      "type": "surgeRuleSet",
-      "action": "output",
-      "args": {
-        "addSuffixInLine": ",no-resolve"
+        "outputName": "geoip-ru.dat",
+        "wantedList": ["ru-blocked", "ru-blocked-community", "re-filter"]
       }
     }
   ]

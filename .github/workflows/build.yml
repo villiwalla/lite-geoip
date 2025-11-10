@@ -42,27 +42,12 @@ jobs:
           go build -C geoip ./
           ./geoip/geoip convert -c ./config.json
 
-      - name: Verify mmdb files
-        run: |
-          cd ./output || exit 1
-          go install -v github.com/maxmind/mmdbverify@latest
-          for name in $(ls *.mmdb); do
-            $(go env GOPATH)/bin/mmdbverify -file ${name}
-          done
-
       - name: Generate sha256 checksum for dat files
         run: |
           cd ./output || exit 1
-          for name in $(ls *.dat); do
+          for name in $(ls *.dat 2>/dev/null); do
             sha256sum ${name} > ./${name}.sha256sum
-          done
-
-      - name: Generate sha256 checksum for mmdb files
-        run: |
-          cd ./output || exit 1
-          for name in $(ls *.mmdb); do
-            sha256sum ${name} > ./${name}.sha256sum
-          done
+          done || true
 
       - name: Git push assets to "release" branch
         run: |
