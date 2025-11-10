@@ -42,16 +42,27 @@ jobs:
           go build -C geoip ./
           ./geoip/geoip convert -c ./config.json
 
+      - name: Prepare publish artifacts (geoip.dat only)
+        run: |
+          mkdir -p ./publish
+          if [ -f ./output/geoip.dat ]; then
+            install -Dp ./output/geoip.dat ./publish/geoip.dat
+            sha256sum ./publish/geoip.dat > ./publish/geoip.dat.sha256sum
+          else
+            echo "geoip.dat not found in ./output" >&2
+            exit 1
+          fi
+
       - name: Generate sha256 checksum for dat files
         run: |
-          cd ./output || exit 1
+          cd ./publish || exit 1
           for name in $(ls *.dat 2>/dev/null); do
             sha256sum ${name} > ./${name}.sha256sum
           done || true
 
       - name: Git push assets to "release" branch
         run: |
-          cd output || exit 1
+          cd publish || exit 1
           git init
           git config --local user.name "github-actions[bot]"
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -63,24 +74,16 @@ jobs:
 
       - name: Purge jsdelivr CDN
         run: |
-          cd output || exit 1
+          cd publish || exit 1
           for file in $(ls); do
             curl -i "https://purge.jsdelivr.net/gh/${{ github.repository }}@release/${file}"
           done
-
-      - name: Remove some files to avoid publishing to GitHub release
-        run: |
-          rm -rf ./output/*.{gz,zip}
-          rm -rf ./output/GeoLite2-*.csv
-          rm -rf ./output/GeoLite2-*.mmdb
-          rm -rf ./output/GeoLite2-*.sha256sum
-          rm -rf ./output/{clash,dat,mrs,nginx,srs,surge,text}
 
       - name: Upload files to GitHub release
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file_glob: true
-          file: ./output/*
+          file: ./publish/*
           release_name: ${{ env.RELEASE_NAME }}
           tag: ${{ env.TAG_NAME }}
